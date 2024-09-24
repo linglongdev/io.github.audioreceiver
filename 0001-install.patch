@@ -1,0 +1,49 @@
+From 23c61847deaebd9103a115d2fe3e4e18c70b5a15 Mon Sep 17 00:00:00 2001
+From: wjyrich <1071633242@qq.com>
+Date: Tue, 17 Sep 2024 14:12:41 +0800
+Subject: [PATCH] install
+
+---
+ src/CMakeLists.txt        |  6 ++++++
+ src/audioreceiver.desktop | 11 +++++++++++
+ 2 files changed, 17 insertions(+)
+ create mode 100644 src/audioreceiver.desktop
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 5d7a630..2bb8a61 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -69,6 +69,12 @@ install(TARGETS audioreceiver
+         PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+         COMPONENT audioreceiver)
+ 
++install(FILES ../icons/application/audioreceiver.svg
++        DESTINATION share/icons/hicolor/scalable/apps/)
++
++install(FILES audioreceiver.desktop
++            DESTINATION share/applications)
++
+ if (WIN32 OR APPLE)
+     install(DIRECTORY "${PROJECT_BINARY_DIR}/windeployqt"
+             DESTINATION "${CMAKE_INSTALL_BINDIR}"
+diff --git a/src/audioreceiver.desktop b/src/audioreceiver.desktop
+new file mode 100644
+index 0000000..48da50b
+--- /dev/null
++++ b/src/audioreceiver.desktop
+@@ -0,0 +1,11 @@
++[Desktop Entry]
++Categories=Accessibility;Qt;Utility;
++Exec=audioreceiver
++Name=audioreceiver
++Name[zh_CN]=audioreceiver
++Icon=audioreceiver
++StartupNotify=false
++Terminal=false
++Type=Application
++GenericName=audioreceiver
++Version=0.9.6
+\ No newline at end of file
+-- 
+2.43.4
+
