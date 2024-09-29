@@ -1,0 +1,45 @@
+version: "1"
+
+package:
+  id: io.github.audioreceiver
+  name: audioreceiver
+  version: 0.9.6.1
+  kind: app
+  description: |
+    Simple VLF receiver using PC soundcard with direct sampling.
+
+command:
+  - /opt/apps/io.github.audioreceiver/files/bin/audioreceiver
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/sardylan/audioreceiver.git
+    version: master
+    commit: 558e3f8b8abf8d501445cb628b466d4344aa0344
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libu/libusb-1.0/libusb-1.0-0-dev_1.0.22-2_amd64.deb
+    digest: 0c5bc545ab92ae00274f3b33fdadfa895024877884abaaa86380846669252429
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libu/libusb-1.0/libusb-1.0-0_1.0.22-2_amd64.deb
+    digest: 37be9e682f0fd7533b7bb9d91af802a5070ad68eb9434036af5bc2815efb2615
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/f/fftw3/libfftw3-dev_3.3.8-2_amd64.deb
+    digest: 4f38dfd0e6ef4e4098ccd4c0f569c08b68a2c8a8263e53eb9c87713d6f47d731
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/f/fftw3/libfftw3-bin_3.3.8-2_amd64.deb
+    digest: b549b1ad61157c3df102b57338a1f7b35e3aa0ce3e765d4076cacbaee6924551
+
+build: |
+  bash ./install_dep linglong/sources $PREFIX
+
+  cd /project/linglong/sources/audioreceiver.git
+  git apply ../../../0001-install.patch
+  cp icons/application/icon.svg icons/application/audioreceiver.svg
+  mkdir -p build
+  cd build
+  cmake .. \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX}
+  cmake --build . --target install -j$(nproc --all)
